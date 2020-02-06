@@ -1,6 +1,10 @@
 import sys
 import csv
 
+import numpy
+import pyqtgraph
+from PyQt4 import QtGui, QtCore
+
 
 def load(fn):
 	data = []
@@ -118,11 +122,29 @@ def find_contaminations(a, b):
 
 if __name__ == "__main__":
 	data = load(sys.argv[1])
-	print data
 	for i, g in enumerate(data):
-		if i == 0:
+		if i == 0 or i == 1:
 			pass
 		else:
-			print "find running"
 			find_contaminations(data[i - 1], g)
 	print contaminations
+
+	img_h = numpy.array(contaminations["horizontal"])
+	img_v = numpy.array(contaminations["vertical"])
+	img_d = numpy.array(contaminations["diagonal"])
+
+	img_h = numpy.hstack((img_h, numpy.array([[-1], [-1], [-1]])))
+	img_v = numpy.vstack((img_v, numpy.array([-1, -1, -1])))
+	img_v = numpy.hstack((img_v, numpy.array([[-1], [-1], [-1]])))
+	img_d = numpy.vstack((img_d, numpy.array([-1, -1, -1, -1])))
+
+	img = numpy.hstack((img_h, img_v, img_d)).T
+
+	app = QtGui.QApplication([])
+
+	plt = pyqtgraph.ImageView()
+	plt.show()
+	plt.setWindowTitle("contaminations h/v/d")
+	plt.setImage(img)
+
+	app.exec_()
