@@ -3,7 +3,7 @@ import csv
 
 import numpy
 import pyqtgraph
-from PyQt4 import QtGui, QtCore
+from PyQt4 import QtGui
 
 
 def load(fn):
@@ -49,7 +49,7 @@ def compare(a, b):
 	res = []
 	for i in range(3):
 		for j in range(3):
-			if a[i][j] != b[i][j]:
+			if a[i][j] == '0' and b[i][j] == '1':
 				res.append((i, j))
 	return res
 
