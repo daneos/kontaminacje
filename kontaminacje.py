@@ -65,17 +65,19 @@ def find_gfp_neighbour(pos, source):
 
 contaminations = {
 	"horizontal": [
-		[0, 0],
-		[0, 0],
-		[0, 0]
+		[0, 0, 0, -1],
+		[0, 0, 0, -1],
+		[0, 0, -1, -1]
 	],
 	"vertical": [
-		[0, 0, 0],
-		[0, 0, 0]
+		[0, 0, 0, -1],
+		[0, 0, 0, -1],
+		[-1, -1, -1, -1]
 	],
 	"diagonal": [
 		[0, 0, 0, 0],
-		[0, 0, 0, 0]
+		[0, 0, 0, 0],
+		[-1, -1, -1, -1]
 	]
 }
 
@@ -101,7 +103,7 @@ def find_contaminations(a, b):
 				else:
 					i = s[0] - 1
 
-				contaminations["vertical"][s[0] - 1][s[1]] += 1. / ns
+				contaminations["vertical"][i][s[1]] += 1. / ns
 			else:
 
 				if gfp[0] < s[0]:
@@ -133,10 +135,6 @@ if __name__ == "__main__":
 	img_v = numpy.array(contaminations["vertical"])
 	img_d = numpy.array(contaminations["diagonal"])
 
-	img_h = numpy.hstack((img_h, numpy.array([[-1], [-1], [-1]])))
-	img_v = numpy.vstack((img_v, numpy.array([-1, -1, -1])))
-	img_v = numpy.hstack((img_v, numpy.array([[-1], [-1], [-1]])))
-	img_d = numpy.vstack((img_d, numpy.array([-1, -1, -1, -1])))
 
 	img = numpy.hstack((img_h, img_v, img_d)).T
 
