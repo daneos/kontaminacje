@@ -34,6 +34,19 @@ def neighbour(pos):
 			if nx >= 0 and ny >= 0 and nx <= 2 and ny <= 2:
 				if nx != x or ny != y:
 					res.append((nx, ny))
+
+	# horizontal - move to next row
+	if (x, y) == (1, 0):
+		res.append((0, 2))
+	elif (x, y) == (2, 0):
+		res.append((1, 2))
+
+	# horizontal - move to previous row
+	# elif (x, y) == (0, 2):
+	# 	res.append((1, 0))
+	# elif (x, y) == (1, 2):
+	# 	res.append((2, 0))
+
 	return res
 
 
@@ -88,7 +101,19 @@ def find_contaminations(a, b):
 		sources = find_gfp_neighbour(gfp, a)
 		ns = len(sources)
 		for s in sources:
-			if gfp[0] == s[0]:
+			# horizontal - move to next row
+			if (gfp[0], gfp[1]) == (1, 0) and (s[0], s[1]) == (0, 2):
+				contaminations["horizontal"][0][2] += 1. / ns
+			elif (gfp[0], gfp[1]) == (2, 0) and (s[0], s[1]) == (1, 2):
+				contaminations["horizontal"][1][2] += 1. / ns
+
+			# horizontal - move to previous row
+			# elif (gfp[0], gfp[1]) == (0, 2) and (s[0], s[1]) == (1, 0):
+			# 	contaminations["horizontal"][0][2] += 1. / ns
+			# elif (gfp[0], gfp[1]) == (1, 2) and (s[0], s[1]) == (2, 0):
+			# 	contaminations["horizontal"][1][2] += 1. / ns
+
+			elif gfp[0] == s[0]:
 
 				if gfp[1] > s[1]:
 					i = s[1]
