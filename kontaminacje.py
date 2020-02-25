@@ -166,6 +166,10 @@ def find_contaminations(a, b):
 
 if __name__ == "__main__":
 	""" Main procedure """
+	if len(sys.argv) < 2:
+		print "Usage: %s <csv-file>" % sys.argv[0]
+		sys.exit(-1)
+
 	data = load(sys.argv[1])
 	for i, g in enumerate(data):
 		if i == 0 or i == 1:
